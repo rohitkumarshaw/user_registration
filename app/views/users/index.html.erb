@@ -1,0 +1,29 @@
+<table>
+  <tr>
+    <td colspan="4" align="center">List OF Users &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= link_to "Sign Up", new_user_path %>&nbsp;&nbsp;<%= link_to "Sign In", login_path %> </td>
+  </tr>
+  <% if current_user %>
+    <tr>
+      <td colspan="4" align="center" valign="middle" height="70px">Welcome <%=current_user.login%></td>
+      <td><%=link_to 'Sign Out', logout_path%></td>
+    </tr>
+  <% end %>
+
+  <tr>
+    <td colspan="4"><font color="red"><b><%= flash[:notice] %></b></font></td>
+  </tr>
+
+  <% for @user in @users %>
+    <tr>
+      <td>
+        <%=@user.login%>
+      </td>      <td>
+        <%=@user.email%>
+      </td>      <td>
+        <%= link_to 'Edit', edit_user_path(:id => @user) %>
+      </td>      <td>
+        <b><%= link_to 'Remove', user_path(:id => @user), :confirm => 'Are you sure?', :method => :delete %></b>
+      </td>
+    </tr>
+  <% end %>
+</table>

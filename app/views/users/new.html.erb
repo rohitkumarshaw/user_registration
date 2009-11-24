@@ -1,0 +1,79 @@
+<%= error_messages_for :user %>
+<%= javascript_include_tag :defaults %>
+
+<% form_tag users_path do %>
+
+  <table>
+
+    <tr>
+      <td>Login</td>
+      <td>
+        <%= text_field :user,:login %>
+        <script type="text/javascript">
+          var user_login = new LiveValidation('user_login');
+          user_login.add( Validate.Presence );
+          user_login.add( Validate.Uniqueness );
+          user_login.add( Validate.Length, { minimum: 6 } );
+        </script>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <p id="login_available" style="font:bold 12px Verdana; width:500px; height:40px; float:left;"></p>
+        <%= observe_field 'user_login', :url => login_available_check_users_path, :with =>'login_name', :frequency =>1, :on =>'changed', :loading =>"$('spinner1').show();", :loaded =>"$('spinner1').hide();", :html =>{:method =>'get'}%>
+      </td>
+    </tr>
+
+
+    <tr>
+      <td>Email</td>
+      <td> <%= text_field :user,:email %>
+        <script type="text/javascript">
+          var user_email = new LiveValidation('user_email');
+          user_email.add( Validate.Presence );
+          user_email.add( Validate.Uniqueness );
+          user_email.add( Validate.Email );
+        </script></td>
+    </tr>
+
+    <tr>
+      <td colspan="2">
+        <div id="email_available" style="font:bold 12px Verdana; width:500px; height:40px; float:left;"></div>
+        <%= observe_field 'user_email', :url => email_available_check_users_path, :with =>'email', :frequency =>1, :on =>'changed', :loading =>"$('spinner2').show();", :loaded =>"$('spinner2').hide();", :html =>{:method =>'get'}%>
+      </td>
+    </tr>
+
+
+    <tr>
+      <td>Password</td>
+      <td> <%= password_field :user,:password %></p>
+        <script type="text/javascript">
+          var user_password = new LiveValidation('user_password');
+          user_password.add( Validate.Presence );
+          user_password.add( Validate.Length, { minimum: 6, maximum: 32 } );
+        </script></td>
+    </tr>
+
+    <tr>
+      <td>&nbsp;</td>
+    </tr>
+
+    <tr>
+      <td>Confirm Password</td>
+      <td><%= password_field :user,:password_confirmation %></p>
+        <script type="text/javascript">
+          var user_password_confirmation = new LiveValidation('user_password_confirmation');
+          user_password_confirmation.add( Validate.Confirmation, { match: 'user_password' } );
+          user_password_confirmation.add( Validate.Presence );
+        </script></td>
+    </tr>
+
+
+    <tr>
+      <td></td><td><%= submit_tag 'Sign up' %></td>
+    </tr>
+
+
+
+  </table>
+<% end %>
